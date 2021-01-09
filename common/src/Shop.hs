@@ -1,19 +1,20 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Shop where
 
 import Data.Maybe
 import Data.Text
+import Data.Char
 import Data.Aeson
 import Data.Aeson.Types
 import GHC.Generics (Generic)
 import qualified Data.Aeson.Parser
 import qualified Data.Text as T
 
-import TypeClasses (Representable, IsText)
-
+import TypeClasses (Representable (..), IsText (..))
 
 data ShopError
   = ShopNumberWrongLength
@@ -43,7 +44,7 @@ instance Eq Shop where
 instance ToJSON Shop
 instance FromJSON Shop where
   parseJSON = withObject "Shop" $ \o -> do
-    res <- mkStore
+    res <- mkShop
       <$> o .: "shopNumber"
       <*> o .: "shopLocationCode"
       <*> o .: "shopName"
@@ -98,7 +99,7 @@ mkShopNumber num
   | elem False $ fmap isNumber (T.unpack num) = Left $ ShopNumberNotNumeric num
   | otherwise = Right $ ShopNumber num
 
-mkLocationCode :: Text -> Either StoreError LocationCode
+mkLocationCode :: Text -> Either ShopError LocationCode
 mkLocationCode lc
   | T.length lc /= 2 = Left $ LocationCodeWrongLength
   | otherwise = maybe (Left $ InvalidLocationCode lc) Right (fromRep lc)
@@ -108,6 +109,6 @@ mkShopName name
   | T.length name > 32 = Left $ ShopNameExceedsMaxLength $ T.length name
   | otherwise = Right $ ShopName name
 
-mkStore :: Text -> Text -> Text -> (Either StoreError Store)
-mkStore num loc name = Store <$> mkShopNumber num <*> mkLocationCode loc <*> mkShopName name
+mkShop :: Text -> Text -> Text -> (Either ShopError Shop)
+mkShop num loc name = Shop <$> mkShopNumber num <*> mkLocationCode loc <*> mkShopName name
 

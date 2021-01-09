@@ -3,7 +3,7 @@ module Main where
 import Network.Wai
 import Network.Wai.Handler.Warp
 
-import VRD_Api (app)
+import Api (app)
 import Database (migrateDb)
 
 main :: IO ()

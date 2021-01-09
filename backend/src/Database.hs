@@ -1,13 +1,13 @@
-{-# LANGUAGE EmptyDataDecls             #-}
-{-# LANGUAGE FlexibleContexts           #-}
-{-# LANGUAGE GADTs                      #-}
+{-# LANGUAGE EmptyDataDecls #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE QuasiQuotes                #-}
-{-# LANGUAGE TemplateHaskell            #-}
-{-# LANGUAGE TypeFamilies               #-}
-{-# LANGUAGE TypeSynonymInstances       #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
@@ -22,26 +22,29 @@ import Database.Persist
 import Database.Persist.Postgresql
 import Database.Persist.TH
 
-import Store
+import qualified Data.Text as T
+
+import Shop
 import SerialNumber
+import TypeClasses (Representable (..), IsText (..))
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 VRDRegistry
     serialNumber String
     UVRDRegistry serialNumber
     deriving Show
-StoreRegistry
-    storeNumber String
-    storeLocationCode String
-    storeName String
-    UStoreRegistry storeNumber storeLocationCode
+ShopRegistry
+    shopNumber String
+    shopLocationCode String
+    shopName String
+    UShopRegistry shopNumber shopLocationCode
     deriving Show
 VRDSubscription
-    storeId StoreRegistryId
+    shopId ShopRegistryId
     vrdId VRDRegistryId
     subscriptionStart String
     subscriptionEnd String
-    UVRDSubscription storeId vrdId
+    UVRDSubscription shopId vrdId
     deriving Show
 |]
 
@@ -61,48 +64,24 @@ data InsertError
 
 instance Show InsertError where
   show (RecordAlreadyStored s) = s ++ " has already been stored."
-  
--- data SerialNumberError =
---   SerialAlreadyStored SerialNumber
-
--- instance Show SerialNumberError where
---   show (SerialAlreadyStored sn) = show sn ++ " has already been stored."
-  
--- insertVRD :: SerialNumber -> SqlPersistT IO (Maybe (InsertError VRDRegistry)))
--- insertVRD sn = do
---   res <- try (insert $ VRDRegistry $ show sn)
---   pure $ case res of
---     Right _ -> Nothing
---     Left (_ :: SomeException) -> Just $ SerialAlreadyStored sn
-
 
 insertVRD :: SerialNumber -> SqlPersistT IO (Maybe InsertError)
 insertVRD sn = do
-  res <- insertUnique $ VRDRegistry $ show sn
+  res <- insertUnique $ VRDRegistry $ T.unpack $ getText sn
   pure $ case res of
     Just _ -> Nothing
     Nothing -> Just $ RecordAlreadyStored $ show sn
 
-insertStore :: StoreNumber
-            -> LocationCode
-            -> StoreName
-            -> SqlPersistT IO (Maybe InsertError)
-insertStore num loc name = do
-  res <- insertUnique $ StoreRegistry (show num) (show loc) (show name)
+insertShop :: Shop -> SqlPersistT IO (Maybe InsertError)
+insertShop (Shop num loc name) = do
+  res <- insertUnique $ ShopRegistry
+         (T.unpack $ getText num)
+         (T.unpack $ getText loc)
+         (T.unpack $ getText name)
   pure $ case res of
     Just _ -> Nothing
-    Nothing -> Just $ RecordAlreadyStored $ show loc ++ show num
+    Nothing -> Just $ RecordAlreadyStored $ show loc ++ " " ++ show num
 
--- data RegistrationError
---   = InvalidStoreNumber StoreNumber
---   | AlreadyRegistered SerialNumber
---   | SubscriptionInactive
-
--- registerVRD :: SerialNumber -> StoreNumber -> SqlPersistT IO (Either RegistrationError VRD)
--- registerVRD serialNumber storeNumber
-
-
--- getNames :: SqlPersistT IO [String]
--- getNames = do
---   p <- selectList [] []
---   return $ fmap (personName . entityVal) p    
+data RegistrationError
+  = InvalidStoreNumber ShopNumber
+  | AlreadyRegistered SerialNumber
