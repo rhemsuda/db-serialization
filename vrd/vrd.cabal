@@ -1,0 +1,24 @@
+-- vrd.cabal
+        
+name:                vrd
+version:             0.1.0.0
+synopsis:            AdService and weighing products
+   
+homepage:            solvexsoftware.io
+license:             BSD3
+license-file:        LICENSE
+author:              Kyle Jensen, Galen Sprout
+maintainer:          admin@solvexsoftware.io
+                     
+build-type:          Simple
+extra-source-files:  ChangeLog.md
+cabal-version:       >=1.10
+
+executable vrd
+  main-is:             Main.hs
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+
+  build-depends:       base
+                     , common
+                     , reflex-dom
