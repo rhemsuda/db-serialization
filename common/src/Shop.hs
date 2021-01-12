@@ -82,7 +82,7 @@ instance IsText LocationCode where
 
 instance Representable LocationCode where
   type Rep LocationCode = Text  
-  toRep lc = getText lc
+  toRep = getText
 
 
 newtype ShopName =
