@@ -30,7 +30,7 @@ export ANDROID_ADB_SERVER_PORT=5038
 ```
 3. Specify output path and Android attribute in nix-build
 ```sh
-$ nix-build -o android-result -A android.<symbol>
+$ nix-build -o android-result -A android.app
 ```
 4. Deploy to android device using adb install (or the default bin/deploy script provided by Reflex)
 ```sh
