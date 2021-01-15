@@ -44,7 +44,7 @@ $ android-result/bin/deploy
 
 1. Install Postgres
 ```sh
-$ apt install postgres libpq-dev
+$ sudo apt-get install postgresql libpq-dev
 ```
 2. Create user and alter password
 ```sh
