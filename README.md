@@ -15,11 +15,11 @@ $ cabal repl backend
 
 ## How to deploy to Android
 
-1. If using WSL - start adb server on port 5038
+1. If not using WSL skip this step. Otherwise, start adb server on port 5038 on the host machine.
 ```sh
 $ adb -a -P 5038 nodaemon server
 ```
-2. Ensure device can be seen in list of emulators
+2. Ensure device can be seen in list of emulators. The IP and PORT are that of the host machine's adb service.
 ```sh
 $ adb -a -H 192.168.55.33 -P 5038 devices
 ```
