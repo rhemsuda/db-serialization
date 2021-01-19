@@ -14,7 +14,7 @@ $ cabal repl backend
 ## How to deploy to Web using JSaddle
 
 ## How to deploy to Android
-0. Before you start, you will need to install Android Studio and get familiar with the Emulator and Android Debug Bridge (ADB). You can find the download steps here: 
+> Note: Before you start, you will need to install Android Studio and get familiar with the Emulator and Android Debug Bridge (ADB). You can find the download steps here: 
 https://developer.android.com/studio?gclid=CjwKCAiAo5qABhBdEiwAOtGmbruE3GqMEWTLYS6S8HhaYxfoy5yGKmOCYam8rUMAOaOKjHmYHkCDkBoCCHwQAvD_BwE&gclsrc=aw.ds. 
 > Note: If you are using WSL, you will also need to download the adb cli on your linux machine: https://developer.android.com/studio/command-line/adb
 
