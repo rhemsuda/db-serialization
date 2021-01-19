@@ -16,6 +16,7 @@ $ cabal repl backend
 ## How to deploy to Android
 > Note: Before you start, you will need to install Android Studio and get familiar with the Emulator and Android Debug Bridge (ADB). You can find the download steps here: 
 https://developer.android.com/studio?gclid=CjwKCAiAo5qABhBdEiwAOtGmbruE3GqMEWTLYS6S8HhaYxfoy5yGKmOCYam8rUMAOaOKjHmYHkCDkBoCCHwQAvD_BwE&gclsrc=aw.ds. 
+
 > Note: If you are using WSL, you will also need to download the adb cli on your linux machine: https://developer.android.com/studio/command-line/adb
 
 1. If not using WSL skip this step. Otherwise, start adb server on port 5038 on the host machine.
