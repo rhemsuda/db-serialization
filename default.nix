@@ -10,11 +10,12 @@
     backend = ./backend;
     app = ./app;
     vrd = ./vrd;
+    landing = ./landing;
   };
 
   shells = {
-    ghc = ["app" "vrd" "common" "backend"];
-    ghcjs = ["app" "vrd" "common"];
+    ghc = ["app" "vrd" "landing" "common" "backend"];
+    ghcjs = ["app" "vrd" "landing" "common"];
   };
 
   android.app = {

@@ -2,9 +2,9 @@ module Customer where
 
 import Data.Text
 import Data.Maybe
-import Data.PhoneNumber
-import Data.CountryCode
-import Text.Email.Validate
+--import Data.PhoneNumber
+--import Data.CountryCode
+--import Text.Email.Validate
 
 newtype Name = Name Text
 newtype CustomerDescription = CustomerDescription Text
@@ -12,8 +12,8 @@ newtype CustomerDescription = CustomerDescription Text
 data Customer = Customer
   { customerName :: Name
   , customerDesc :: CustomerDescription
-  , customerEmail :: EmailAddress
-  , customerPhone :: PhoneNumber
+  --, customerEmail :: EmailAddress
+  --, customerPhone :: PhoneNumber
   , customerAddress :: Address
   , customerShippingInfo :: ShippingInfo
   -- , customerPaymentMethod :: PaymentMethod
@@ -21,7 +21,7 @@ data Customer = Customer
 
 data Address = Address
   { addressCity :: Text
-  , addressCountry :: CountryCode
+--  , addressCountry :: CountryCode
   , addressLine1 :: Text
   , addressLine2 :: Maybe Text
   , addressPostalCode :: Text
@@ -31,7 +31,7 @@ data Address = Address
 data ShippingInfo = ShippingInfo
   { shippingAddress :: Address
   , shippingCustomerName :: Name
-  , shippingCustomerPhone :: PhoneNumber
+--  , shippingCustomerPhone :: PhoneNumber
   }
 
 -- data PaymentMethod = PaymentMethod
