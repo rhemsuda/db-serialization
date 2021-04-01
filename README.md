@@ -1,5 +1,5 @@
 # Database Serialization Project
-This project was intended on serving a larger purpose, but contract fell through due to COVID-19 so it serves as example code for newer projects.
+This project was intended on serving a larger purpose, but since contracts fell through due to COVID-19, it serves as example code for my personal projects.
 
 ## How to test using REPL
 
