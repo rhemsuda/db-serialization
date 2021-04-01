@@ -1,4 +1,5 @@
-# VRD Project (Vape Recycling Displays)
+# Database Serialization Project
+This project was intended on serving a larger purpose, but contract fell through due to COVID-19 so it serves as example code for newer projects.
 
 ## How to test using REPL
 
